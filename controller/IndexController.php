@@ -40,7 +40,9 @@ class IndexController{
 	function is_password(){
 		if(empty($this->items['.password'])){
 			return false;
-		}
+		}else{
+			$this->items['.password']['path'] = get_absolute_path($this->path).'.password';
+ 		}
 		
 		$password = $this->get_content($this->items['.password']);
 		list($password) = explode("\n",$password);
@@ -151,6 +153,7 @@ class IndexController{
 			$width = $height = 800;
 		}
 		$item['thumb'] = onedrive::thumbnail($this->path.$this->name);
+		list($item['thumb'],$tmp) = explode('&width=', $item['thumb']);
 		$item['thumb'] .= strpos($item['thumb'], '?')?'&':'?';
 		return $item['thumb']."width={$width}&height={$height}";
 	}
